@@ -16,3 +16,4 @@
 ### III. Screenshot of the program output, including correctness check (CUDA)
 ### IV. Comparative table of execution time and Analysis
 ### V. Discussion
+- when is it faster to use shared memory?
