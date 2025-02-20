@@ -59,18 +59,18 @@ The shared memory concept was also applied in the creation of the CUDA program. 
 <br/>
 
 ### V. Discussion
-**- Why is CUDA faster?** <br/>
+- **Why is CUDA faster?** <br/>
 The C Kernel runs on the CPU, which processes each data point one-by-one. If you have around 268 million items, it will definitely take a long time.
 CUDA Kernel runs on GPU which splits the work into many smaller tasks and does them all at the same time as explained earlier, hence why the GPU finishes task much faster. CUDA has smart tricks such as unified memory, page creation, and mem advise. 
 - Unified Memory: Instead of manually moving data between CPU and GPU, the system does it automatically.
 - Page Creation: This reduces the number of interruptions (page faults) when the GPU needs new data
 - Mem Advise: Only sends back the final result from GPU to CPU, instead of sending everything which causes unnecessary data transfers.
 
-**-Problems encountered** <br/>
+- **Problems encountered** <br/>
 Race conditions occurred with the threads in a block when writing in the shared memory. This caused incorrect values to be added to each histogram bin which produced the incorrect results. Multiple threads writing to the same memory location causing incorrect incrementation of some bins resulting in incorrect results.
 
-**-AHA moments** <br/>
+- **AHA moments** <br/>
 The use of the __syncthreads() function was implemented to allow for all threads in a block to finish updating the shared memory before merging with the global memory. The additional use of atomicAdd() to prevent two or more threads from updating the same memory location, preventing incorrect results.
 
-**- When is it faster/better to use shared memory?** <br/>
+- **When is it faster/better to use shared memory?** <br/>
 It is better to use shared memory when we have to repeatedly access and modify the same data. It is also better to use this when manupulating large datasets. Moreover, it is also faster because it accesses and modifies local data or the data that is already inside the GPU chip, compared to C, wherein it has to call or pass the histogram bins outside of the function. 
