@@ -12,7 +12,6 @@
 ## Report
 
 ### I. Screenshot of the program output with execution time and correctness check (C)
-**Execution time and correctness check**
    ![image](https://github.com/user-attachments/assets/27c8ffd3-09e1-400d-9d5d-3e0b77011ff0)
 <br/>
 ### II. Screenshot of the program output with execution time and correctness check (CUDA)
@@ -24,16 +23,16 @@
 <br/>
 ### III. Screenshot of the program implementation
 1. C Implementation
-   - Histogram Count function
+   - Histogram Count function<br/>
      ![image](https://github.com/user-attachments/assets/c87c1404-1a1d-4206-9a4b-7f360cb195b3)
-   - Correctness checker
+   - Correctness checker<br/>
      ![image](https://github.com/user-attachments/assets/e09484fe-b7d0-4469-8028-263fb27231c6)
 
   As shown above, the function computes for the index by looping through the vector and getting its remainder when divided by 10. The computed index is used to locate the specific histogram to increment.
 2. CUDA Implementation
-   - Histogram Count kernel
+   - Histogram Count kernel<br/>
      ![image](https://github.com/user-attachments/assets/ee82de7f-76ff-42c1-a329-34b1cd1511ad)
-   - Correctness checker
+   - Correctness checker<br/>
      ![image](https://github.com/user-attachments/assets/57496315-5671-4d53-8f43-695ee7ecfb96)
 
      Similar to the C implementation, but this applied shared memory. A static shared memory called sharedHist with 10 elements is initialized. The sharedHist is first initialized to 0 to properly increment the values inside it, later on. __syncthreads() is called after to synchronize the threads since each threads are executing in parallel in a block. This is to avoid race condition. The next block computes for the index of the histogram to be incremented. atomicAdd() is used to read the address in shared memory, adds one, and writes the result back to the same address read. When this is called, no threads can access the same address until writing of the results is finished. To write back to global memory, atomicAdd is also used. The kernel only modifies the values first in the shared memory and then the result will be written back to the global memory, histbins[].
