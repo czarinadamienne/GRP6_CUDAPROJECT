@@ -62,9 +62,9 @@ The shared memory concept was also applied in the creation of the CUDA program. 
 - **Why is CUDA faster?** <br/>
 The C Kernel runs on the CPU, which processes each data point one-by-one. If you have around 268 million items, it will definitely take a long time.
 CUDA Kernel runs on GPU which splits the work into many smaller tasks and does them all at the same time as explained earlier, hence why the GPU finishes task much faster. CUDA has smart tricks such as unified memory, page creation, and mem advise. 
-- Unified Memory: Instead of manually moving data between CPU and GPU, the system does it automatically.
-- Page Creation: This reduces the number of interruptions (page faults) when the GPU needs new data
-- Mem Advise: Only sends back the final result from GPU to CPU, instead of sending everything which causes unnecessary data transfers.
+  - Unified Memory: Instead of manually moving data between CPU and GPU, the system does it automatically.
+  - Page Creation: This reduces the number of interruptions (page faults) when the GPU needs new data
+  - Mem Advise: Only sends back the final result from GPU to CPU, instead of sending everything which causes unnecessary data transfers.
 
 - **Problems encountered** <br/>
 Race conditions occurred with the threads in a block when writing in the shared memory. This caused incorrect values to be added to each histogram bin which produced the incorrect results. Multiple threads writing to the same memory location causing incorrect incrementation of some bins resulting in incorrect results.
